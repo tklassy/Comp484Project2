@@ -1,0 +1,128 @@
+<!doctype html>
+<!--
+  jquery methods used in this project
+
+  1. .clearQueue()
+     location: script.js, inside resetPet()
+     removes the cat's waiting animation steps from the fx queue.
+     .stop() then stops the step that is already running.
+     reset uses this to cancel the remaining steps of a trip.
+     docs: https://api.jquery.com/clearQueue/
+
+  2. .promise()
+     location: script.js, near the end of startAction()
+     waits until the cat's jquery queue has finished.
+     .done() then updates the stats, restores the sitting pose,
+     and unlocks the buttons. an action number prevents canceled
+     actions from changing the stats after a reset.
+     it does not wait for css animations; .delay() times the task.
+     docs: https://api.jquery.com/promise/
+-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Kit-Kat</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <!-- jquery must load before our script -->
+    <script
+      src="https://code.jquery.com/jquery-2.2.1.min.js"
+      integrity="sha256-gvQgAFzTH6trSrAWoH1iPo9Xc96QxSZ3feW6kem+O00="
+      crossorigin="anonymous"
+      defer
+    ></script>
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <main>
+      <header>
+        <h1 id="pet-name">Kit-Kat</h1>
+        <button id="reset" type="button">Reset</button>
+      </header>
+
+      <!-- the top buttons and props share the same action names -->
+      <nav class="actions" aria-label="Actions">
+        <button type="button" data-action="treat">Treat</button>
+        <button type="button" data-action="play">Play</button>
+        <button type="button" data-action="exercise">Exercise</button>
+        <button type="button" data-action="sleep">Sleep</button>
+      </nav>
+
+      <div class="layout">
+        <!-- show each stat as a number and a meter -->
+        <aside class="stats" aria-label="Stats">
+          <label for="weight"
+            >Weight <span><b id="weight-value">70</b>/100</span></label
+          >
+          <meter id="weight" min="0" max="100" value="70"></meter>
+          <label for="energy"
+            >Energy <span><b id="energy-value">70</b>/100</span></label
+          >
+          <meter id="energy" min="0" max="100" value="70"></meter>
+          <label for="sleep"
+            >Sleep <span><b id="sleep-value">70</b>/100</span></label
+          >
+          <meter id="sleep" min="0" max="100" value="70"></meter>
+          <label for="happiness"
+            >Happiness <span><b id="happiness-value">70</b>/100</span></label
+          >
+          <meter id="happiness" min="0" max="100" value="70"></meter>
+        </aside>
+
+        <section class="room" aria-label="Kit-Kat's room">
+          <div id="scene">
+            <img
+              class="background"
+              src="images/Room.png"
+              alt="A blocky living room"
+              draggable="false"
+            />
+            <button
+              class="station food"
+              type="button"
+              data-action="treat"
+              aria-label="Give food"
+            >
+              <img src="images/treat.png" alt="" draggable="false" />
+            </button>
+            <button
+              class="station ball"
+              type="button"
+              data-action="play"
+              aria-label="Play with the ball"
+            >
+              <img src="images/ball.png" alt="" draggable="false" />
+            </button>
+            <button
+              class="station bench"
+              type="button"
+              data-action="exercise"
+              aria-label="Exercise on the bench"
+            >
+              <img src="images/bench.png" alt="" draggable="false" />
+            </button>
+            <button
+              class="station tower"
+              type="button"
+              data-action="sleep"
+              aria-label="Sleep on the tower"
+            >
+              <img src="images/tower.png" alt="" draggable="false" />
+            </button>
+            <!-- the box moves through the room; the image bobs inside it -->
+            <div id="pet" data-pose="sit">
+              <img
+                id="pet-image"
+                src="images/kitkatSit.png"
+                alt="Kit-Kat sitting"
+                draggable="false"
+              />
+            </div>
+          </div>
+          <p id="message" role="status" aria-live="polite">Ready.</p>
+        </section>
+      </div>
+      <noscript>Enable JavaScript to play.</noscript>
+    </main>
+  </body>
+</html>
